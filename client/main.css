@@ -1,0 +1,37 @@
+body {
+  padding: 10px;
+  font-family: sans-serif;
+}
+
+#userinfo {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+#bubbles {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+} 
+
+#binary_streams {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 30%;
+}
+
+.binary_stream {
+  float: right;
+  padding: 10px;
+  margin: 10px;
+  background: grey;
+  width: 10%;
+}
+
+#room_info {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+}

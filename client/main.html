@@ -1,0 +1,97 @@
+<head>
+  <title>wonder2</title>
+</head>
+
+<body>
+<script id="vertex-shader" type="x-shader/x-vertex">
+  attribute vec2 aVertexPosition;
+
+  uniform vec2 uScalingFactor;
+  uniform vec2 uRotationVector;
+
+  void main() {
+    vec2 rotatedPosition = vec2(
+      aVertexPosition.x * uRotationVector.y +
+            aVertexPosition.y * uRotationVector.x,
+      aVertexPosition.y * uRotationVector.y -
+            aVertexPosition.x * uRotationVector.x
+    );
+
+    gl_Position = vec4(rotatedPosition * uScalingFactor, 0.0, 1.0);
+  }
+</script>
+<script id="fragment-shader" type="x-shader/x-fragment">
+  #ifdef GL_ES
+    precision highp float;
+  #endif
+
+  uniform vec4 uGlobalColor;
+
+  void main() {
+    gl_FragColor = uGlobalColor;
+  }
+</script>
+<canvas style="z-index: -1; position: fixed; left: 0; width: 100%; height: 100%" id="wonder"></canvas>
+  <img src="wyvern_emblem.png" style="position:fixed;top:20px:left:20px;width: 50px;height:50px" />
+  {{> user_details}}
+  {{> bubbles}}
+  {{> binary_streams}}
+  {{> room_info}}
+  {{> avatars}}
+</body>
+
+<template name="avatars">
+  {{#each users}}
+  <svg class="draggable" style="padding: 10px"><circle cx="50" cy="50" r="50"/><b>{{_id}}</b></svg>
+  {{/each}}
+</template>
+
+<template name="room_info">
+  <div id="room_info">
+    <h3>{{current_room}}</h3>
+  </div>
+</template>
+
+<template name="binary_streams">
+  <div class="binary_stream">
+    <video id="myVideo" style="width: 100px; height; 100px" class="myVideo" autoplay onclick="this.pause()"></video>
+    <b>{{name}}</b>
+  </div>
+  {{#each users}}
+  <div class="binary_stream">
+      <a href="#" id="makeCall">Call {{profile.peer}}</a>
+      <video style="width: 100px; height; 100px" id="video-{{profile.peer}}" autoplay></video>
+  </div>
+  {{/each}}
+
+</template>
+
+<template name="bubbles">
+<div id="bubbles">
+<ul>
+{{#each bubbles}}
+<li>{{bubble_name}}</li>
+{{/each}}
+</ul>
+<form id="bubble_data">
+  
+  <input type="text" placeholder="Change name of current bubble" id="bubble_name">
+  <input type="hidden" id="current_bubble" value="{{current_bubble}}">
+  <br>
+  <input type="submit" value="Change bubble">
+</form>
+
+</div>
+</template>
+
+<template name="user_details">
+  <div id="userinfo">
+  <span>Online Users: {{user_count}}</span>
+  <form id="user_data">
+    <input type="text" placeholder="Your desired name" id="user_name">
+    <br>
+    <input type="submit" value="Change user details">
+  </form>
+  </div>
+</template>
+
